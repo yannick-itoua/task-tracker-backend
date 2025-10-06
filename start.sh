@@ -3,10 +3,10 @@
 # Debug: Show DATABASE_URL (masked for security)
 echo "DATABASE_URL provided: ${DATABASE_URL:+***set***}"
 
-# Convert Railway DATABASE_URL format to Spring Boot JDBC format
+# Convert Railway DATABASE_URL format to Spring Boot configuration
 if [ ! -z "$DATABASE_URL" ]; then
     # Railway provides: postgresql://user:pass@host:port/db
-    # Spring Boot needs: jdbc:postgresql://host:port/db
+    # Spring Boot needs: jdbc:postgresql://host:port/db + separate username/password
     
     echo "Converting DATABASE_URL format for Spring Boot..."
     
@@ -16,14 +16,21 @@ if [ ! -z "$DATABASE_URL" ]; then
     # Extract user:password@host:port/database
     USER_PASS_HOST_PORT_DB=$URL_PART
     
+    # Extract user:password part (everything before @)
+    USER_PASS=${USER_PASS_HOST_PORT_DB%%@*}
+    export SPRING_DATASOURCE_USERNAME=${USER_PASS%%:*}
+    export SPRING_DATASOURCE_PASSWORD=${USER_PASS#*:}
+    
     # Extract everything after the @ symbol (host:port/database)
     HOST_PORT_DB=${USER_PASS_HOST_PORT_DB#*@}
     
-    # Create the JDBC URL
+    # Create the JDBC URL without username/password
     SPRING_DATABASE_URL="jdbc:postgresql://${HOST_PORT_DB}"
     export DATABASE_URL="$SPRING_DATABASE_URL"
     
     echo "Converted DATABASE_URL to: $SPRING_DATABASE_URL"
+    echo "Set SPRING_DATASOURCE_USERNAME: $SPRING_DATASOURCE_USERNAME"
+    echo "Set SPRING_DATASOURCE_PASSWORD: ***"
 else
     echo "No DATABASE_URL provided, using default configuration"
 fi
