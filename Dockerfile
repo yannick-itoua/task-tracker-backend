@@ -10,11 +10,11 @@ COPY .mvn .mvn
 COPY mvnw .
 COPY mvnw.cmd .
 RUN chmod +x mvnw
-RUN ./mvnw dependency:go-offline -B
+RUN mvn dependency:go-offline -B
 
 # Copy source code and build
 COPY src ./src
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
 # Stage 2: Create the runtime image
 FROM openjdk:17-jdk-slim AS runtime
