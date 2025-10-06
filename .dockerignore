@@ -1,0 +1,29 @@
+# Ignore build artifacts
+target/
+!target/*.jar
+
+# Ignore IDE files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore Git
+.git/
+.gitignore
+
+# Ignore documentation
+README.md
+*.md
+
+# Ignore test files
+src/test/
+
+# Ignore Docker files when building
+Dockerfile
+.dockerignore
