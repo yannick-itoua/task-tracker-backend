@@ -21,7 +21,8 @@ public class CorsConfig {
             "http://localhost:3000",
             "http://localhost:5173",
             "https://localhost:3000",
-            "https://localhost:5173"
+            "https://localhost:5173",
+            "https://sunny-victory-production.up.railway.app"
         );
         
         // Get CORS_ORIGINS from environment variable
@@ -33,11 +34,14 @@ public class CorsConfig {
             }
         }
         
+        configuration.setAllowedOrigins(allowedOrigins);
+        
         // Allow all Railway app domains
         configuration.setAllowedOriginPatterns(Arrays.asList(
             "http://localhost:*",
             "https://localhost:*",
             "https://*.railway.app",
+            "https://*.up.railway.app",
             "https://*.vercel.app",
             "https://*.netlify.app"
         ));
