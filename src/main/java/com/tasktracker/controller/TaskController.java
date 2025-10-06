@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/tasks")
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5173"})
 public class TaskController {
     
     @Autowired
