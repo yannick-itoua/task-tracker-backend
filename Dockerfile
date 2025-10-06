@@ -40,11 +40,11 @@ RUN chown -R appuser:appgroup /app
 USER appuser
 
 # Expose port
-EXPOSE 8080
+EXPOSE 4001
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8080/actuator/health || exit 1
+    CMD curl -f http://localhost:4001/actuator/health || exit 1
 
 # Run the application
 ENTRYPOINT ["./start.sh"]
